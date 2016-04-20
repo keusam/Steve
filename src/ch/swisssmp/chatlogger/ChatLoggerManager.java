@@ -1,58 +1,62 @@
 package ch.swisssmp.chatlogger;
 
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.util.Random;
 
+
+
 public class ChatLoggerManager {
-	
+
 	private int nLines=0;
 	private LineNumberReader lnr;
 	private ChatLogger plugin;
 	private Random rng = new Random();
-	
-//	public static ChatLoggerManager clm = new ChatLoggerManager();
-	
+
+	//	public static ChatLoggerManager clm = new ChatLoggerManager();
+
 	public ChatLoggerManager(ChatLogger chatlogger){
+
 		
 		setPlugin(chatlogger);
 		try (FileReader fr = new FileReader("ChatLog.txt")){	
-			
+
 			lnr = new LineNumberReader(fr);
 			String line = lnr.readLine();
-			
+
 			while (line != null){
-				
+
 				nLines++;
 				line = lnr.readLine();
-				
+
 			}
-			
+
 		} catch (IOException e) {
 			// exception handling left as an exercise for the reader
 			System.out.println("No Chatlog File found.\n Make sure your file is named \"ChatLog.txt\"");
 		}
-		
-		
-		
+
+
+
 	}
-		
+
 	public int getNumberOfLines(){		
 		return nLines;		
 	}
-	
 
-	
+
+
 	public String getLineNumberN(int n) throws IOException{
-		
+
 		FileReader fr = new FileReader("ChatLog.txt");
 		lnr = new LineNumberReader(fr);
-		
+
 		for (int i = 0;i<n;i++){
 			lnr.readLine();
 		}
-		
+
 		return lnr.readLine();
 	}
 
@@ -67,7 +71,7 @@ public class ChatLoggerManager {
 	private void setPlugin(ChatLogger plugin) {
 		this.plugin = plugin;
 	}
-	
+
 	public int getRandomNumber(int nLines){		
 		return rng.nextInt(nLines);		
 	}

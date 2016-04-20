@@ -1,6 +1,7 @@
 package ch.swisssmp.chatlogger;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,7 +27,7 @@ public class ChatEvent implements Listener{
 
 		String message = event.getMessage();
 
-		try(FileWriter fw = new FileWriter("ChatLog.txt", true);
+		try(FileWriter fw = new FileWriter(plugin.getDataFolder()+ File.separator + "ChatLog.txt", true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				PrintWriter out = new PrintWriter(bw))
 				{
