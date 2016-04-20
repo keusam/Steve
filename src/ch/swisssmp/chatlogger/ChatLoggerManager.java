@@ -37,28 +37,22 @@ public class ChatLoggerManager {
 		
 		
 	}
-	
-//	public ChatLoggerManager(){
-//		
-//	}
-	
-	public LineNumberReader getReader(){
-		return lnr;
-	}
-	
-//	public static ChatLoggerManager getManager(){
-//		return clm;
-//	}
-	
+		
 	public int getNumberOfLines(){		
 		return nLines;		
 	}
 	
-	public void setLine(int n){
-		lnr.setLineNumber(n);
-	}
+
 	
-	public String getLine() throws IOException{
+	public String getLineNumberN(int n) throws IOException{
+		
+		FileReader fr = new FileReader("ChatLog.txt");
+		lnr = new LineNumberReader(fr);
+		
+		for (int i = 0;i<n;i++){
+			lnr.readLine();
+		}
+		
 		return lnr.readLine();
 	}
 
@@ -77,11 +71,5 @@ public class ChatLoggerManager {
 	public int getRandomNumber(int nLines){		
 		return rng.nextInt(nLines);		
 	}
-
-	public int getLineNumber() {
-		return lnr.getLineNumber();
-	}
-	
-	
 
 }
