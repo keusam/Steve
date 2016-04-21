@@ -7,10 +7,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import ru.tehkode.permissions.PermissionUser;
+import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 public class ChatEvent implements Listener{
 
@@ -21,19 +25,24 @@ public class ChatEvent implements Listener{
 		ChatEvent.plugin = plugin;
 	}
 
-	
+
 	@EventHandler
 	public void onChatEvent(AsyncPlayerChatEvent event){
 
 		String message = event.getMessage();
+		Player player = event.getPlayer();
+		PermissionUser user = PermissionsEx.getUser(player);
+		Boolean isGuest = user.inGroup("Gast");
 
 		try(FileWriter fw = new FileWriter(plugin.getDataFolder()+ File.separator + "ChatLog.txt", true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				PrintWriter out = new PrintWriter(bw))
 				{
 			if (!message.toLowerCase().contains("steve")){
-				out.println(message);
-				plugin.clm.increaseNumberOfLinesByOne();
+				if (!isGuest){
+					out.println(message);
+					plugin.clm.increaseNumberOfLinesByOne();
+				}
 			}
 			else{
 
@@ -53,7 +62,7 @@ public class ChatEvent implements Listener{
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						
+
 					}
 
 				}.runTaskLater(this.plugin, 20);
