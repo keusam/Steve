@@ -1,6 +1,7 @@
 package ch.swisssmp.chatlogger;
 
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
@@ -21,7 +22,7 @@ public class ChatLoggerManager {
 
 		
 		setPlugin(chatlogger);
-		try (FileReader fr = new FileReader("ChatLog.txt")){	
+		try (FileReader fr = new FileReader(plugin.getDataFolder()+ File.separator + "ChatLog.txt")){	
 
 			lnr = new LineNumberReader(fr);
 			String line = lnr.readLine();
@@ -50,7 +51,7 @@ public class ChatLoggerManager {
 
 	public String getLineNumberN(int n) throws IOException{
 
-		FileReader fr = new FileReader("ChatLog.txt");
+		FileReader fr = new FileReader(plugin.getDataFolder()+ File.separator + "ChatLog.txt");
 		lnr = new LineNumberReader(fr);
 
 		for (int i = 0;i<n;i++){
