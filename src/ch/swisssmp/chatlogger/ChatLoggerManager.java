@@ -16,7 +16,6 @@ public class ChatLoggerManager {
 	private ChatLogger plugin;
 	private Random rng = new Random();
 
-	//	public static ChatLoggerManager clm = new ChatLoggerManager();
 
 	public ChatLoggerManager(ChatLogger chatlogger){
 
@@ -35,7 +34,6 @@ public class ChatLoggerManager {
 			}
 
 		} catch (IOException e) {
-			// exception handling left as an exercise for the reader
 			System.out.println("No Chatlog File found.\n Make sure your file is named \"ChatLog.txt\"");
 		}
 

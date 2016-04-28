@@ -5,6 +5,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -20,26 +24,60 @@ public class ChatEvent implements Listener{
 
 
 	static ChatLogger plugin;
+	private List<Pattern> patterns;
 
 	public ChatEvent(ChatLogger plugin){
 		ChatEvent.plugin = plugin;
+		patterns = loadPatterns();
 	}
+
+
+	public List<Pattern> loadPatterns(){
+
+		List<String> stringPatterns = plugin.getConfig().getStringList("StringsToIgnore");
+		List<Pattern> patterns = new LinkedList<Pattern>();
+
+		for (String s : stringPatterns){
+
+			patterns.add(Pattern.compile(s, Pattern.CASE_INSENSITIVE));
+
+		}
+
+		return patterns;
+	}
+
+
 
 
 	@EventHandler
 	public void onChatEvent(AsyncPlayerChatEvent event){
-
+		Boolean isGuest = false;
+		Boolean match = false;
 		String message = event.getMessage();
 		Player player = event.getPlayer();
 		PermissionUser user = PermissionsEx.getUser(player);
-		Boolean isGuest = user.inGroup("Gast");
+		isGuest = user.inGroup("Gast");
+
+
+
+
+		for (Pattern p : patterns){
+			Matcher matcher = p.matcher(message);
+
+			if (matcher.find()){
+				match = true;
+				break;
+			}
+
+		}
+
 
 		try(FileWriter fw = new FileWriter(plugin.getDataFolder()+ File.separator + "ChatLog.txt", true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				PrintWriter out = new PrintWriter(bw))
 				{
 			if (!message.toLowerCase().contains("steve")){
-				if (!isGuest){
+				if (!isGuest && !match ){
 					out.println(message);
 					plugin.clm.increaseNumberOfLinesByOne();
 				}
@@ -69,7 +107,7 @@ public class ChatEvent implements Listener{
 
 			}
 				} catch (IOException e) {
-					//exception handling left as an exercise for the reader
+					
 				}
 
 	}

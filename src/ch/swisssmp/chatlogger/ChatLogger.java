@@ -19,6 +19,9 @@ public class ChatLogger extends JavaPlugin {
 			this.getDataFolder().mkdir();
 		}
 		
+		this.saveDefaultConfig();
+		
+		
 		File file = new File(this.getDataFolder() + File.separator+ "ChatLog.txt");
 		if(!file.exists()){
 			try {
@@ -42,5 +45,4 @@ public class ChatLogger extends JavaPlugin {
 	}
 
 }
-
 
